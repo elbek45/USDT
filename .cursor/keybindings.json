@@ -1,0 +1,16 @@
+{
+  "keybindings": [
+    {
+      "key": "ctrl+shift+p",
+      "command": "workbench.action.tasks.runTask",
+      "args": "create-pr",
+      "when": "git:hasChanges"
+    },
+    {
+      "key": "ctrl+shift+v",
+      "command": "workbench.action.tasks.runTask",
+      "args": "validate-and-pr",
+      "when": "git:hasChanges"
+    }
+  ]
+}

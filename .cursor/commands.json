@@ -1,0 +1,37 @@
+{
+  "commands": [
+    {
+      "name": "Create Pull Request",
+      "command": "./scripts/create-pr.sh",
+      "args": ["${input:taskName}", "${input:description}"],
+      "description": "Create a new pull request with current changes",
+      "category": "Git",
+      "icon": "git-pull-request",
+      "keybinding": "ctrl+shift+p",
+      "when": "git:hasChanges"
+    },
+    {
+      "name": "Validate and Create PR",
+      "command": "pnpm task:complete",
+      "args": ["${input:taskName}", "${input:description}"],
+      "description": "Run validation and create PR",
+      "category": "Git",
+      "icon": "check-circle",
+      "keybinding": "ctrl+shift+v"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "taskName",
+      "description": "Task name for the PR",
+      "default": "Feature implementation",
+      "type": "promptString"
+    },
+    {
+      "id": "description",
+      "description": "PR description",
+      "default": "Auto-generated PR from Cursor",
+      "type": "promptString"
+    }
+  ]
+}

@@ -5,5 +5,8 @@
     "body": "## 🚀 {{taskName}}\n\n{{description}}\n\n### ✅ Changes\n- {{changes}}\n\n### 🧪 Testing\n- [x] Code builds successfully\n- [x] Tests pass\n- [x] Linting passed\n\nReady for review and auto-merge."
   },
   "cursor.general.autoPRBranchPrefix": "feature/",
-  "cursor.general.autoPRBaseBranch": "main"
+  "cursor.general.autoPRBaseBranch": "main",
+  "cursor.general.showCreatePRButton": true,
+  "cursor.general.prCreationMode": "automatic",
+  "cursor.general.enablePRWorkflows": true
 }

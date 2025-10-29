@@ -1,0 +1,16 @@
+{
+  "ui": {
+    "showCreatePRButton": true,
+    "prButtonText": "Create PR",
+    "prButtonIcon": "git-pull-request",
+    "prButtonPosition": "statusBar",
+    "enablePRWorkflows": true,
+    "autoPRMode": "manual"
+  },
+  "git": {
+    "enableAutoPR": true,
+    "prCreationMode": "manual",
+    "showPRButton": true,
+    "prButtonLabel": "Create PR"
+  }
+}

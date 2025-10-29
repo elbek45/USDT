@@ -1,0 +1,26 @@
+{
+  "statusbar": {
+    "items": [
+      {
+        "id": "create-pr",
+        "text": "Create PR",
+        "icon": "git-pull-request",
+        "command": "./scripts/create-pr.sh",
+        "args": ["${input:taskName}", "${input:description}"],
+        "tooltip": "Create a new pull request",
+        "when": "git:hasChanges",
+        "position": "right"
+      },
+      {
+        "id": "validate-pr",
+        "text": "Validate & PR",
+        "icon": "check-circle",
+        "command": "pnpm task:complete",
+        "args": ["${input:taskName}", "${input:description}"],
+        "tooltip": "Validate code and create PR",
+        "when": "git:hasChanges",
+        "position": "right"
+      }
+    ]
+  }
+}

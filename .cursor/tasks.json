@@ -2,10 +2,25 @@
   "tasks": {
     "create-pr": {
       "command": "./scripts/create-pr.sh",
-      "args": ["${taskName}", "${description}"],
+      "args": ["${input:taskName}", "${input:description}"],
       "description": "Create PR for completed task",
-      "autoRun": true,
-      "onComplete": "create-pr"
+      "autoRun": false,
+      "showInUI": true,
+      "category": "git",
+      "icon": "git-pull-request",
+      "keybinding": "ctrl+shift+p",
+      "group": "build"
+    },
+    "validate-and-pr": {
+      "command": "pnpm task:complete",
+      "args": ["${input:taskName}", "${input:description}"],
+      "description": "Validate code and create PR",
+      "autoRun": false,
+      "showInUI": true,
+      "category": "git",
+      "icon": "check-circle",
+      "keybinding": "ctrl+shift+v",
+      "group": "build"
     }
   },
   "workflows": {
@@ -19,10 +34,30 @@
         {
           "name": "create-pr",
           "command": "./scripts/create-pr.sh",
-          "args": ["${taskName}", "${description}"],
+          "args": ["${input:taskName}", "${input:description}"],
           "description": "Create PR automatically"
         }
       ]
     }
-  }
+  },
+  "ui": {
+    "showCreatePRButton": true,
+    "prButtonText": "Create PR",
+    "prButtonIcon": "git-pull-request",
+    "prButtonPosition": "statusBar"
+  },
+  "inputs": [
+    {
+      "id": "taskName",
+      "description": "Task name for the PR",
+      "default": "Feature implementation",
+      "type": "promptString"
+    },
+    {
+      "id": "description",
+      "description": "PR description",
+      "default": "Auto-generated PR from Cursor",
+      "type": "promptString"
+    }
+  ]
 }
