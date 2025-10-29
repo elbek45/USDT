@@ -46,8 +46,6 @@ COPY tsconfig.base.json ./
 # Copy webapp source code
 COPY apps/webapp ./apps/webapp
 
-WORKDIR /app/apps/webapp
-
 # Set environment variables for build
 # Note: NEXT_PUBLIC_* vars must be set at build time
 ARG NEXT_PUBLIC_API_URL
@@ -61,8 +59,8 @@ ENV NEXT_PUBLIC_SOLANA_NETWORK=$NEXT_PUBLIC_SOLANA_NETWORK
 ENV NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=$NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Build the application
-RUN pnpm build
+# Build the application from workspace root
+RUN cd apps/webapp && pnpm build
 
 # Stage 3: Runner
 FROM node:20-alpine AS runner
