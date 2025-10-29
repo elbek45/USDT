@@ -11,7 +11,7 @@ FROM node:20-alpine AS deps
 RUN corepack enable && corepack prepare pnpm@9.5.0 --activate
 
 # Install libc6-compat for Next.js compatibility and python for native deps
-RUN apk add --no-cache libc6-compat python3 make g++ linux-headers
+RUN apk add --no-cache libc6-compat python3 make g++ linux-headers eudev-dev libusb-dev
 
 WORKDIR /app
 
