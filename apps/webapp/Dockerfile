@@ -23,7 +23,9 @@ COPY tsconfig.base.json ./
 COPY apps/webapp/package.json ./apps/webapp/
 
 # Install dependencies (frozen lockfile for reproducibility)
-RUN pnpm install --frozen-lockfile --filter webapp...
+# Note: --no-optional skips optional deps that require native compilation (like usb)
+RUN pnpm install --frozen-lockfile --filter webapp... --no-optional || \
+    pnpm install --frozen-lockfile --filter webapp...
 
 # Stage 2: Builder
 FROM node:20-alpine AS builder
