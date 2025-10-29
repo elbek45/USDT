@@ -4,44 +4,24 @@
 # Multi-stage build for optimal Next.js deployment
 # Node.js 20 + Next.js 15 + React 18
 
-# Stage 1: Dependencies
-FROM node:20-alpine AS deps
-
-# Install pnpm
-RUN corepack enable && corepack prepare pnpm@9.5.0 --activate
-
-# Install libc6-compat for Next.js compatibility and python for native deps
-RUN apk add --no-cache libc6-compat python3 make g++ linux-headers eudev-dev libusb-dev
-
-WORKDIR /app
-
-# Copy workspace configuration
-COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
-COPY tsconfig.base.json ./
-
-# Copy webapp package files
-COPY apps/webapp/package.json ./apps/webapp/
-
-# Install all workspace dependencies
-RUN pnpm install --frozen-lockfile
-
-# Stage 2: Builder
+# Stage 1: Builder
 FROM node:20-alpine AS builder
 
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@9.5.0 --activate
 
+# Install build dependencies (no need for native deps here, only for install stage)
 RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 
-# Copy dependencies from deps stage
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/apps/webapp/node_modules ./apps/webapp/node_modules
-
-# Copy workspace configuration
+# Copy workspace configuration and all package.json files
 COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
 COPY tsconfig.base.json ./
+COPY apps/webapp/package.json ./apps/webapp/
+
+# Install dependencies in builder stage (this creates proper symlinks)
+RUN pnpm install --frozen-lockfile --prod=false
 
 # Copy webapp source code
 COPY apps/webapp ./apps/webapp
@@ -62,7 +42,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # Build the application from workspace root
 RUN cd apps/webapp && pnpm build
 
-# Stage 3: Runner
+# Stage 2: Runner
 FROM node:20-alpine AS runner
 
 RUN apk add --no-cache dumb-init
