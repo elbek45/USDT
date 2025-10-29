@@ -1,8 +1,10 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import TronWeb from 'tronweb';
 import { PrismaService } from '../../../database/prisma.service';
 import { TronEventProcessor } from './tron-event-processor.service';
+
+// Use require for TronWeb to avoid TypeScript constructor issues
+const TronWeb = require('tronweb');
 
 /**
  * Tron blockchain indexer service

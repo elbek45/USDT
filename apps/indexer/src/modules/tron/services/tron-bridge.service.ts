@@ -1,8 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Connection, PublicKey } from '@solana/web3.js';
-import TronWeb from 'tronweb';
 import { PrismaService } from '../../../database/prisma.service';
+
+// Use require for TronWeb to avoid TypeScript constructor issues
+const TronWeb = require('tronweb');
 
 /**
  * Cross-chain bridge service for Tron <-> Solana
