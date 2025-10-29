@@ -10,8 +10,8 @@ FROM node:20-alpine AS builder
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@9.5.0 --activate
 
-# Install build dependencies (no need for native deps here, only for install stage)
-RUN apk add --no-cache libc6-compat
+# Install build dependencies including native module compilation tools
+RUN apk add --no-cache libc6-compat python3 make g++ linux-headers eudev-dev libusb-dev
 
 WORKDIR /app
 
