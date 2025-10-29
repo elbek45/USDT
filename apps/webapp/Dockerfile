@@ -22,8 +22,8 @@ COPY tsconfig.base.json ./
 # Copy webapp package files
 COPY apps/webapp/package.json ./apps/webapp/
 
-# Install dependencies (frozen lockfile for reproducibility)
-RUN pnpm install --frozen-lockfile --filter webapp...
+# Install all workspace dependencies
+RUN pnpm install --frozen-lockfile
 
 # Stage 2: Builder
 FROM node:20-alpine AS builder
