@@ -10,8 +10,8 @@ FROM node:20-alpine AS deps
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@9.5.0 --activate
 
-# Install libc6-compat for Next.js compatibility
-RUN apk add --no-cache libc6-compat
+# Install libc6-compat for Next.js compatibility and python for native deps
+RUN apk add --no-cache libc6-compat python3 make g++
 
 WORKDIR /app
 
@@ -23,9 +23,7 @@ COPY tsconfig.base.json ./
 COPY apps/webapp/package.json ./apps/webapp/
 
 # Install dependencies (frozen lockfile for reproducibility)
-# Note: --no-optional skips optional deps that require native compilation (like usb)
-RUN pnpm install --frozen-lockfile --filter webapp... --no-optional || \
-    pnpm install --frozen-lockfile --filter webapp...
+RUN pnpm install --frozen-lockfile --filter webapp...
 
 # Stage 2: Builder
 FROM node:20-alpine AS builder
